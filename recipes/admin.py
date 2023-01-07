@@ -12,7 +12,10 @@ class PostAdmin(SummernoteModelAdmin):
     prepopulated_fields = {'slug': ('title', )}
     list_filter = ('status', 'created_on')
     summernote_fields = ('content')
-    actions = ['publish_recipe']
+    actions = ['publish_recipe', 'unpublish_recipe']
 
     def publish_recipe(self, request, queryset):
         queryset.update(status=1)
+
+    def unpublish_recipe(self, request, queryset):
+        queryset.update(status=0)
