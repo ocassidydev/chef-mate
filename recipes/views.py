@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.view import generic
+from django.views import generic
 from .models import Recipe
 
 
