@@ -13,6 +13,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE,
                                related_name="recipes", default='admin')
     featured_image = CloudinaryField('image', default='placeholder')
+    excerpt = models.TextField(max_length=250, blank=True)
     content = models.TextField()
     likes = models.ManyToManyField(User, related_name='recipe_likes',
                                    blank=True)
