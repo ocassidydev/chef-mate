@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from .models import Recipe
 
@@ -9,3 +9,21 @@ class RecipeList(generic.ListView):
     queryset = Recipe.objects.filter(status=1)
     template_name = 'index.html'
     paginate_by = 5
+
+
+class RecipeDetail(generic.ListView):
+    def get(self, request, slug):
+        queryset = Recipe.object.filter(status=1)
+        recipe = get_object_or_404(queryset, slug=slug)
+        liked = False
+        if recipe.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
+        return render(
+            request,
+            "recipe_detail.html",
+            {
+                "recipe": recipe,
+                "liked": liked
+            }
+        )
