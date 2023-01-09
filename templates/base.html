@@ -26,7 +26,7 @@
     <title>ChefMate</title>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-info">
+    <nav class="navbar navbar-expand-lg navbar-light bg-info fixed-top">
 
         <a class="navbar-brand" href="#">👨‍🍳 ChefMate</a>
 
@@ -45,29 +45,33 @@
             </ul>
         </div>
     </nav>
-    <div class="row">
-        <div class="col-md-3 bg-warning recipe-list-box">
-            <h3>Recipe Lists</h3>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Liked</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Favorited</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Your Submitted Recipes</a>
-                </li>
-                <br>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Add New Category</a>
-                </li>
-            </ul>
+    <main class="flex-shrink-0">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 bg-warning position-fixed" id="sticky-sidebar">
+                    <h3>Recipe Lists</h3>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Liked</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Favorited</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Your Submitted Recipes</a>
+                        </li>
+                        <br>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Add New Category</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col offset-md-3" id="main">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
         </div>
-        <div class="col-md-9">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </div>
+    </main>
 </body>
 </html>

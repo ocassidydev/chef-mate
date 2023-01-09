@@ -7,14 +7,38 @@
 {% for recipe in recipe_list %}
 
     <div class="card">
-        <img class="card-img-top" src="{{ recipe.featured_image }}" alt="Card image cap">
         <div class="card-body">
             <a href="">
-                <h5 class="card-title">{{ recipe.title }}</h5>
-                <p class="card-text">dignissim sodales ut eu sem integer vitae justo eget magna fermentum iaculis eu non diam phasellus vestibulum lorem sed risus</p>
+                <div class="row">
+                    <div class="col-4">
+                        <img class="card-img" src="{{ recipe.featured_image.url }}" alt="Card image cap">
+                    </div>
+                    <div class="col-8 align-middle">
+                        <h5 class="card-title">{{ recipe.title }}</h5>
+                        <p class="card-text">{{ recipe.excerpt }}</p>
+                    </div>
+                </div>
             </a>
         </div>
     </div>
 {% endfor %}
+{% if is_paginated %}
+<nav aria-label="Page navigation" id="paginator-nav">
+    <ul class="pagination">
+        <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        {% for i in page_obj.paginator.page_range %}
+        <li class="page-item">
+            <a class="page-link {% if page_obj.number == i %} active {% endif %}" href="#">{{ i }} 
+                {% if page_obj.number == i %} <span class="sr-only">(current)</span>{% endif %}</a>
+        </li>
+        {% endfor %}
+        <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}">
+            <a class="page-link" href="#">Next</a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
 
 {% endblock %}
