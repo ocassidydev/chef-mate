@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <section class="row">
+
+        <div class="col background-white py-3">
+            <div class="clearfix">
+                <img src="{{ recipe.featured_image.url }}" class="col-4 w-100 rounded float-left">
+                <div class="d-inline">
+                    <h1 class="recipe-title">
+                        {{ recipe.title }}
+                    </h1>
+                    <p class="recipe-subtitle">
+                        Posted by {{ recipe.author }} 
+                        <br>
+                        {{ recipe.created_on }} 
+                        {% if recipe.created_on != recipe.updated_on %} last edited {{ recipe.updated_on }} {% endif %}
+                    </p>
+                    <p class="recipe-excerpt">
+                        {{ recipe.excerpt }}
+                    </p>
+                    <p class="recipe-text">
+                        {{ recipe.content | safe }}
+                    </p>
+                  </p>
+              </div>
+        </div>
+      
+      
+    </section>
+</div>
+
+
+
+{% endblock %}

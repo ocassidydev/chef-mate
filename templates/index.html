@@ -8,7 +8,7 @@
 
     <div class="card">
         <div class="card-body">
-            <a href="">
+            <a href="{% url 'recipe_detail' recipe.slug %}">
                 <div class="row">
                     <div class="col-4">
                         <img class="card-img" src="{{ recipe.featured_image.url }}" alt="Card image cap">
