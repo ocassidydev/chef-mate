@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic, View
+from django.http import HttpResponseRedirect
 from .models import Recipe
 
 
@@ -27,3 +28,16 @@ class RecipeDetail(View):
                 "liked": liked
             }
         )
+
+
+class RecipeLike(View):
+    def post(self, request, slug):
+        queryset = Recipe.objects.filter(status=1)
+        recipe = get_object_or_404(queryset, slug=slug)
+
+        if recipe.likes.filter(id=request.user.id).exists():
+            recipe.likes.remover(request.user)
+        else:
+            recipe.likes.add(recipe.user)
+
+        return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
