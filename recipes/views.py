@@ -10,6 +10,7 @@ class RecipeList(generic.ListView):
     queryset = Recipe.objects.filter(status=1)
     template_name = 'index.html'
     paginate_by = 5
+    print(queryset)
 
 
 class RecipeDetail(View):
@@ -31,13 +32,14 @@ class RecipeDetail(View):
 
 
 class RecipeLike(View):
-    def post(self, request, slug):
+    def post(self, request, location, slug):
         queryset = Recipe.objects.filter(status=1)
         recipe = get_object_or_404(queryset, slug=slug)
 
         if recipe.likes.filter(id=request.user.id).exists():
-            recipe.likes.remover(request.user)
+            recipe.likes.remove(request.user)
         else:
-            recipe.likes.add(recipe.user)
+            recipe.likes.add(request.user)
 
-        return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
+        if location == "home":
+            return HttpResponseRedirect(reverse('home'))

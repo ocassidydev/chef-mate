@@ -27,8 +27,26 @@
                     </div>
                 </div>
             </a>
+            <div class="row">
+                <div class="col-1">
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'recipe_like' 'home' recipe.slug %}" method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" name="recipe_id" value="{{ recipe.slug }}">
+                            <!-- <i class="{ if recipe.likes.filter(id=user.id).exists() } fas { else } far { endif } fa-heart"></i> -->
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </form>
+                    {% else %}
+                    <span class="text-secondary"><i class="far fa-heart"></i></span>
+                    {% endif %}
+                    <span>{{ recipe.number_of_likes }}</span>
+                </div>
+            </div>
         </div>
     </div>
+{% empty %}
+    <p>No recipes yet! Add some and The Gourmand might publish them.</p>
 {% endfor %}
 {% if is_paginated %}
 <nav aria-label="Page navigation" id="paginator-nav">
