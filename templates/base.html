@@ -36,7 +36,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav justify-content-end">
-                {% if user.is_authenticated %}
+                {% if not user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'account_login' %}">Login</a>
                 </li>
@@ -54,7 +54,7 @@
     <main class="flex-shrink-0">
         <div class="container-fluid">
             <div class="row">
-                <div class="d-none d-md-block col-md-3 bg-warning position-fixed h-100" id="sticky-sidebar">
+                <div class="d-none {% if user.is_authenticated %} d-md-block {% endif %} col-md-3 bg-warning position-fixed h-100" id="sticky-sidebar">
                     <h3>Recipe Lists</h3>
                     <ul class="nav flex-column">
                         <li class="nav-item">
@@ -72,7 +72,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col offset-md-3" id="main">
+                <div class="col-lg-6 mx-auto {% if user.is_authenticated %} col-10 offset-md-3 mx-1 {% endif %}" id="main">
                     {% block content %}
                     {% endblock %}
                 </div>
