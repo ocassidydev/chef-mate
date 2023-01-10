@@ -43,3 +43,5 @@ class RecipeLike(View):
 
         if location == "home":
             return HttpResponseRedirect(reverse('home'))
+        elif location == "recipe_detail":
+            return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
