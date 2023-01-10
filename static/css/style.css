@@ -38,7 +38,8 @@ p {
     margin-left: 16px;
 }
 
+/* footer */
 .footer {
-    z-index: 3;
+    position: relative;
 }
 

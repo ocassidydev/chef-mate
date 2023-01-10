@@ -36,19 +36,25 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav justify-content-end">
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="#">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Register</a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
     <main class="flex-shrink-0">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3 bg-warning position-fixed h-100" id="sticky-sidebar">
+                <div class="d-none d-md-block col-md-3 bg-warning position-fixed h-100" id="sticky-sidebar">
                     <h3>Recipe Lists</h3>
                     <ul class="nav flex-column">
                         <li class="nav-item">

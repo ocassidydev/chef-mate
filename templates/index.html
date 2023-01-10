@@ -10,12 +10,20 @@
         <div class="card-body">
             <a href="{% url 'recipe_detail' recipe.slug %}">
                 <div class="row">
-                    <div class="col-4">
-                        <img class="card-img" src="{{ recipe.featured_image.url }}" alt="Card image cap">
-                    </div>
-                    <div class="col-8 align-middle">
-                        <h5 class="card-title">{{ recipe.title }}</h5>
-                        <p class="card-text">{{ recipe.excerpt }}</p>
+                    <div class="col">
+                        <div class="clearfix">
+                            <img src="{{ recipe.featured_image.url }}" class="col-4 w-100 rounded float-left">
+                            <div class="d-inline">
+                                <h1 class="recipe-title">
+                                    {{ recipe.title }}
+                                </h1>
+                                <p class="recipe-subtitle">
+                                    {{ recipe.created_on }} 
+                                <p class="recipe-excerpt">
+                                    {{ recipe.excerpt }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </a>
