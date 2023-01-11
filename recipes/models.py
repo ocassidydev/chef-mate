@@ -31,3 +31,21 @@ class Recipe(models.Model):
 
     def number_of_likes(self):
         return self.likes.count()
+
+
+class RecipeCategory(models.Model):
+    title = models.CharField(max_length=28, unique=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name="recipe_lists")
+    recipes = models.ManyToManyField(Recipe, related_name='recipes_in_list')
+    created_on = models.DateTimeField(default=timezone.now)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_on']
+
+    def __str__(self):
+        return self.title
+
+    def number_of_recipes(self):
+        return self.recipes.count()
