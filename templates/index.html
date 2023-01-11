@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h3 class="text-center">Recipe Feed</h3>
+<h3 class="text-center">{{ title }}</h3>
 
 {% for recipe, likes in recipe_list %}
 
@@ -45,7 +45,15 @@
         </div>
     </div>
 {% empty %}
-    <p>No recipes yet! Add some and The Gourmand might publish them.</p>
+    {% if title == 'Recipe Feed'%}
+    <p>No recipes yet! Add some and The Gourmand might publish them, if they prove quality enough!</p>
+    {% elif title == 'Liked' %}
+    <p>You haven't liked any recipes yet! Click on the like button in the feed to do so.</p>
+    {% elif title == 'My Submitted Recipes' %}
+    <p>You haven't submitted recipes yet! Add some with the button above</p>
+    {% else %}
+    <p>You haven't added any recipes to this list. Navigate the feed to add some!</p>
+    {% endif %}
 {% endfor %}
 {% if is_paginated %}
 <nav aria-label="Page navigation" id="paginator-nav">
