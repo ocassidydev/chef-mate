@@ -14,6 +14,11 @@ class RecipeList(generic.ListView):
     paginate_by = 5
     print(queryset[0].likes)
 
+    def get_context_data(self,**kwargs):
+        context = super(CarList,self).get_context_data(**kwargs)
+        context['picture'] = Picture.objects.filter(your_condition)
+        return context
+
 
 class RecipeDetail(View):
     def get(self, request, slug, *args, **kwargs):
@@ -71,15 +76,18 @@ class RecipeCategoryList(View):
 
             if title_form.is_valid():
                 title_form.instance.user = request.user
-                title = title_form.instance.title
                 category = title_form.save(commit=False)
                 category.save()
             else:
                 category_form = CategoryTitleForm()
 
-            messages.add_message(request, messages.SUCCESS,
-                                 ''.join(['You successfully added a recipe ',
-                                          f'category, titled {title}']))
+            # # implement some other way
+            # messages.add_message(request, messages.SUCCESS,
+            #                      ''.join(['You successfully added a recipe ',
+            #                               'category, titled ',
+            #                               f'{title_form.instance.title}'])
+            #                      )
+
         elif type == "add" or type == "delete":
             recipe_queryset = Recipe.object.filter(status=1)
             recipe = get_object_or_404(recipe_queryset, id=kwargs["recipe_id"])
@@ -89,9 +97,14 @@ class RecipeCategoryList(View):
                 category.recipes.add(recipe)
             elif type == "delete":
                 category.recipes.remove(recipe)
+
         elif type == "delete":
             queryset = RecipeCategory.objects.all()
             category = get_object_or_404(queryset, id=id)
             category.delete()
 
-        return HttpResponseRedirect(reverse(location))
+        if len(location.split('_')) == 1:
+            return HttpResponseRedirect(reverse(location))
+        else:
+            [location, slug] = location.split('_')
+            return HttpResponseRedirect(reverse(location, args=[slug]))

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3 class="text-center">Recipe Feed</h3>
+
+{% for recipe in recipe_list %}
+
+    <div class="card my-4">
+        <div class="card-body">
+            <a href="{% url 'recipe_detail' recipe.slug %}">
+                <div class="row">
+                    <div class="col">
+                        <div class="clearfix">
+                            <img src="{{ recipe.featured_image.url }}" class="col-3 w-100 rounded float-left">
+                            <div class="d-inline">
+                                <h1 class="recipe-title">
+                                    {{ recipe.title }}
+                                </h1>
+                                <p class="recipe-subtitle">
+                                    {{ recipe.created_on }} 
+                                <p class="recipe-excerpt">
+                                    {{ recipe.excerpt }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <div class="row">
+                <div class="col-1">
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'recipe_like' 'home' recipe.slug %}" method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" name="recipe_id" value="{{ recipe.slug }}">
+                            <!-- <i class="{ if recipe.likes.filter(id=user.id).exists() } fas { else } far { endif } fa-heart"></i> -->
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </form>
+                    {% else %}
+                    <span class="text-secondary"><i class="far fa-heart"></i></span>
+                    {% endif %}
+                    <span>{{ recipe.number_of_likes }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% empty %}
+    <p>No recipes yet! Add some and The Gourmand might publish them.</p>
+{% endfor %}
+{% if is_paginated %}
+<nav aria-label="Page navigation" id="paginator-nav">
+    <ul class="pagination">
+        <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}">
+            <a class="page-link" {% if page_obj.has_previous %} href="?page={{ page_obj.previous_page_number }}" {% endif %} tabindex="-1">Previous</a>
+        </li>
+        {% for i in page_obj.paginator.page_range %}
+        <li class="page-item">
+            <a class="page-link {% if page_obj.number == i %} active {% endif %}" href="?page={{ i }}">{{ i }} 
+                {% if page_obj.number == i %} <span class="sr-only">(current)</span>{% endif %}</a>
+        </li>
+        {% endfor %}
+        <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}">
+            <a class="page-link" {% if page_obj.has_next %} href="?page={{ page_obj.next_page_number }}" {% endif %}>Next</a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
+
+{% endblock %}
