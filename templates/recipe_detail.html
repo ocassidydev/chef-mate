@@ -32,8 +32,7 @@
                 <form action="{% url 'recipe_like' 'recipe_detail' recipe.slug %}" method="POST" class="d-inline">
                     {% csrf_token %}
                     <button type="submit" name="recipe_id" value="{{ recipe.slug }}">
-                        <!-- <i class="{ if recipe.likes.filter(id=user.id).exists() } fas { else } far { endif } fa-heart"></i> -->
-                        <i class="far fa-heart"></i>
+                        <i class="{% if liked %} fas {% else %} far {% endif %} fa-heart"></i>
                     </button>
                 </form>
                 {% else %}

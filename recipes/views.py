@@ -12,11 +12,12 @@ class RecipeList(generic.ListView):
     queryset = Recipe.objects.filter(status=1)
     template_name = 'index.html'
     paginate_by = 5
-    print(queryset[0].likes)
 
-    def get_context_data(self,**kwargs):
-        context = super(CarList,self).get_context_data(**kwargs)
-        context['picture'] = Picture.objects.filter(your_condition)
+    def get_context_data(self, **kwargs):
+        context = super(RecipeList, self).get_context_data(**kwargs)
+        likes = [query.likes.filter(id=self.request.user.id).exists()
+                 for query in self.queryset]
+        context['recipe_list'] = zip(context['recipe_list'], likes)
         return context
 
 
