@@ -12,7 +12,7 @@ class RecipeList(generic.ListView):
     queryset = Recipe.objects.filter(status=1)
     template_name = 'index.html'
     paginate_by = 5
-    print(queryset)
+    print(queryset[0].likes)
 
 
 class RecipeDetail(View):
@@ -49,7 +49,7 @@ class RecipeLike(View):
             return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
 
 
-class RecipeList(View):
+class RecipeCategoryList(View):
     def get(self, request, id):
         queryset = RecipeCategory.objects.all()
         category = get_object_or_404(queryset, id=id)
@@ -65,8 +65,8 @@ class RecipeList(View):
             }
         )
 
-    def post(self, request, id, **kwargs):
-        if kwargs["type"] == "create":
+    def post(self, request, location, type, id):
+        if type == "create":
             title_form = CategoryTitleForm(data=request.POST)
 
             if title_form.is_valid():
@@ -80,16 +80,18 @@ class RecipeList(View):
             messages.add_message(request, messages.SUCCESS,
                                  ''.join(['You successfully added a recipe ',
                                           f'category, titled {title}']))
-        elif kwargs["type"] == "update":
+        elif type == "add" or type == "delete":
             recipe_queryset = Recipe.object.filter(status=1)
             recipe = get_object_or_404(recipe_queryset, id=kwargs["recipe_id"])
             category_queryset = RecipeCategory.object.all()
             category = get_object_or_404(category_queryset, user=request.user)
-            if kwargs["add"]:
+            if type == "add":
                 category.recipes.add(recipe)
-            else:
+            elif type == "delete":
                 category.recipes.remove(recipe)
-        elif kwargs["type"] == "delete":
+        elif type == "delete":
             queryset = RecipeCategory.objects.all()
             category = get_object_or_404(queryset, id=id)
             category.delete()
+
+        return HttpResponseRedirect(reverse(location))
