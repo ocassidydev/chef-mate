@@ -88,8 +88,9 @@ class RecipeCategoryList(generic.ListView):
             category_queryset = RecipeCategory.objects.all()
             category = get_object_or_404(category_queryset, id=cat_id)
             if type == "add":
+                print("executed")
                 category.recipes.add(recipe)
-            elif type == "delete":
+            elif type == "remove":
                 category.recipes.remove(recipe)
 
         elif type == "delete":
@@ -97,12 +98,13 @@ class RecipeCategoryList(generic.ListView):
             category = get_object_or_404(queryset, id=cat_id)
             category.delete()
 
-        if len(location.split('_')) == 1:
+        if location == "home":
             return HttpResponseRedirect(reverse(location))
-        else:
-            [location, slug] = location.split('_')
+        elif location == "recipe_detail":
+            slug = recipe.slug
             return HttpResponseRedirect(reverse(location, args=[slug]))
-
+        elif location == "view_category":
+            return HttpResponseRedirect(reverse(location, args=[cat_id]))
 
 class RecipeDetail(View):
 
