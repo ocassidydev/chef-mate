@@ -11,9 +11,16 @@ class RecipeListDisplay(generic.ListView):
     template_name = 'index.html'
     paginate_by = 5
 
-    def get_context_data(self, **kwargs):
-        context = super(RecipeListDisplay, self).get_context_data(**kwargs)
+    # def make_queryset(self):
+    #     if self.filter_category:
+    #         categories = RecipeCategory.objects.all()
+    #         id = self.request.path.split('/')[-2]
+    #         category = get_object_or_404(categories, id=id)
+    #         return category.recipes.all(), category.title
+    #     else:
+    #         return Recipe.objects.filter(status=1)
 
+    def get_context_data(self, **kwargs):
         if self.filter_category:
             categories = RecipeCategory.objects.all()
             id = self.request.path.split('/')[-2]
@@ -24,8 +31,17 @@ class RecipeListDisplay(generic.ListView):
         likes = [query.likes.filter(id=self.request.user.id).exists()
                  for query in self.queryset]
 
+        context = super(RecipeListDisplay, self).get_context_data(**kwargs)
+
+        if self.filter_category:
+            context['category'] = category
+
+        start = context['page_obj'].start_index()-1
+        end = context['page_obj'].end_index()
+        context['recipe_list'] = zip(context['recipe_list'],
+                                     likes[start:end])
+
         context['title'] = self.title
-        context['recipe_list'] = zip(self.queryset, likes)
         context['categories'] = RecipeCategory.objects.filter(
                                     user=self.request.user)
         return context
@@ -33,9 +49,9 @@ class RecipeListDisplay(generic.ListView):
 
 # Create your views here.
 class HomeFeed(RecipeListDisplay):
-    queryset = Recipe.objects.filter(status=1)
     title = "Recipe Feed"
     filter_category = False
+    queryset = Recipe.objects.filter(status=1)
 
 
 class RecipeCategoryList(RecipeListDisplay):
@@ -60,10 +76,10 @@ class RecipeCategoryList(RecipeListDisplay):
             #                               f'{title_form.instance.title}'])
             #                      )
 
-        elif type == "add" or type == "delete":
-            recipe_queryset = Recipe.object.filter(status=1)
+        elif type == "add" or type == "remove":
+            recipe_queryset = Recipe.objects.filter(status=1)
             recipe = get_object_or_404(recipe_queryset, id=recipe_id)
-            category_queryset = RecipeCategory.object.all()
+            category_queryset = RecipeCategory.objects.all()
             category = get_object_or_404(category_queryset, user=request.user)
             if type == "add":
                 category.recipes.add(recipe)
