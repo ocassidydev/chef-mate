@@ -2,39 +2,25 @@ from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic, View
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.core.paginator import Paginator
 from .models import Recipe, RecipeCategory
 from .forms import CategoryTitleForm
+import math
 
 
-class RecipeListDisplay(generic.ListView):
+# Create your views here.
+class HomeFeed(generic.ListView):
     model = Recipe
+    queryset = Recipe.objects.filter(status=1)
     template_name = 'index.html'
     paginate_by = 5
-
-    # def make_queryset(self):
-    #     if self.filter_category:
-    #         categories = RecipeCategory.objects.all()
-    #         id = self.request.path.split('/')[-2]
-    #         category = get_object_or_404(categories, id=id)
-    #         return category.recipes.all(), category.title
-    #     else:
-    #         return Recipe.objects.filter(status=1)
+    title = "Recipe Feed"
 
     def get_context_data(self, **kwargs):
-        if self.filter_category:
-            categories = RecipeCategory.objects.all()
-            id = self.request.path.split('/')[-2]
-            category = get_object_or_404(categories, id=id)
-            self.title = category.title
-            self.queryset = category.recipes.all()
-
         likes = [query.likes.filter(id=self.request.user.id).exists()
                  for query in self.queryset]
 
-        context = super(RecipeListDisplay, self).get_context_data(**kwargs)
-
-        if self.filter_category:
-            context['category'] = category
+        context = super(HomeFeed, self).get_context_data(**kwargs)
 
         start = context['page_obj'].start_index()-1
         end = context['page_obj'].end_index()
@@ -42,21 +28,41 @@ class RecipeListDisplay(generic.ListView):
                                      likes[start:end])
 
         context['title'] = self.title
-        context['categories'] = RecipeCategory.objects.filter(
+        if self.request.user.is_authenticated:
+            context['categories'] = RecipeCategory.objects.filter(
                                     user=self.request.user)
         return context
 
 
-# Create your views here.
-class HomeFeed(RecipeListDisplay):
-    title = "Recipe Feed"
-    filter_category = False
-    queryset = Recipe.objects.filter(status=1)
+class RecipeCategoryList(generic.ListView):
+    model = Recipe
+    template_name = 'index.html'
+    paginate_by = 5
 
+    def get_context_data(self, **kwargs):
+        categories = RecipeCategory.objects.all()
+        id = self.request.path.split('/')[-2]
+        category = get_object_or_404(categories, id=id)
+        self.title = category.title
+        self.queryset = category.recipes.all()
 
-class RecipeCategoryList(RecipeListDisplay):
-    queryset = None
-    filter_category = True
+        likes = [query.likes.filter(id=self.request.user.id).exists()
+                 for query in self.queryset]
+
+        context = super(RecipeCategoryList, self).get_context_data(**kwargs)
+        context['category'] = category
+
+        start = context['page_obj'].start_index()-1
+        end = context['page_obj'].end_index()
+        context['recipe_list'] = zip(context['recipe_list'],
+                                     likes[start:end])
+
+        context['paginator'].num_pages = math.ceil(len(self.queryset)/5)
+
+        context['title'] = self.title
+        context['categories'] = RecipeCategory.objects.filter(
+                                    user=self.request.user)
+        return context
 
     def post(self, request, location, type, cat_id, recipe_id):
         if type == "create":
@@ -80,7 +86,7 @@ class RecipeCategoryList(RecipeListDisplay):
             recipe_queryset = Recipe.objects.filter(status=1)
             recipe = get_object_or_404(recipe_queryset, id=recipe_id)
             category_queryset = RecipeCategory.objects.all()
-            category = get_object_or_404(category_queryset, user=request.user)
+            category = get_object_or_404(category_queryset, id=cat_id)
             if type == "add":
                 category.recipes.add(recipe)
             elif type == "delete":
