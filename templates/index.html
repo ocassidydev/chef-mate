@@ -4,7 +4,7 @@
 
 <h3 class="text-center">{{ title }}</h3>
 {% if location == 'home' and user.is_authenticated %}
-    <a href="{% url 'submit_recipe' %}"><button class="btn btn-success my-2 my-sm-0">Submit New Recipe</button></a>
+    <a href="{% url 'submit_recipe' %}"><button class="btn btn-success my-2 my-sm-0 position-fixed btn-submit">Submit New Recipe</button></a>
 {% endif %}
 {% if filter_category and title != "Favourites" %}
     <form method="POST" action="{% url 'category_cud' 'home' 'delete' category.id 0 %}" class="my-2 my-lg-0">
@@ -39,34 +39,39 @@
                     </div>
                 </div>
             </a>
-            <div class="row">
-                <div class="col-1">
-                    {% if user.is_authenticated %}
-                    <form action="{% url 'recipe_like' location recipe.slug %}" method="POST" class="d-inline">
-                        {% csrf_token %}
-                        <button type="submit" name="recipe_id" value="{{ recipe.slug }}">
-                            <i class="{% if like %} fas {% else %} far {% endif %} fa-heart"></i>
-                        </button>
-                    </form>
-                    {% else %}
-                    <span class="text-secondary"><i class="far fa-heart"></i></span>
-                    {% endif %}
-                    <span>{{ recipe.number_of_likes }}</span>
-                </div>
-                <div class="col-1">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        <i class="fa-solid fa-folder-plus"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% for category in categories %}
-                        <form method="POST" action="{% url 'category_cud' 'home' 'add' category.id recipe.id %}"
-                            class="dropdown-item my-2 my-lg-0">
+            <div class="row mt-4">
+                <div class="col">
+                    <span class="mx-1">
+                        {% if user.is_authenticated %}
+                        <form action="{% url 'recipe_like' location recipe.slug %}" method="POST" class="d-inline">
                             {% csrf_token %}
-                            <button class="btn btn-danger my-2 my-sm-0" type="submit">{{ category.title }}</button>
+                            <button class="btn-light" type="submit" name="recipe_id" value="{{ recipe.slug }}">
+                                <i class="{% if like %} fas {% else %} far {% endif %} fa-heart"></i>
+                            </button>
                         </form>
-                        {% endfor %}
-                    </div>
+                        {% else %}
+                        <span class="text-secondary"><i class="far fa-heart"></i></span>
+                        {% endif %}
+                        <span>{{ recipe.number_of_likes }}</span>
+                    </span>
+                    
+                    {% if user.is_authenticated and categories|length > 0 %}
+                    <span class="mx-1">
+                        <button class="dropdown-toggle d-inline btn-light mx-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-folder-plus"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for category in categories %}
+                            <form method="POST" action="{% url 'category_cud' 'home' 'add' category.id recipe.id %}"
+                                class="dropdown-item my-2 my-lg-0 btn-category-container px-auto">
+                                {% csrf_token %}
+                                <button class="btn btn-secondary my-2 my-sm-0 mx-auto" type="submit">{{ category.title }}</button>
+                            </form>
+                            {% endfor %}
+                        </div>
+                    </span>
+                    {% endif %}
                 </div>
                 {% if filter_category %}
                 <div class="col-1">

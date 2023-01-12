@@ -135,10 +135,14 @@ class RecipeDetail(View):
         queryset = Recipe.objects.filter(status=1)
         recipe = get_object_or_404(queryset, slug=slug)
         liked = False
-        categories = RecipeCategory.objects.filter(user=request.user)
+        if request.user.is_authenticated:
+            categories = RecipeCategory.objects.filter(user=request.user)
+        else:
+            categories = []
         if recipe.likes.filter(id=self.request.user.id).exists():
             liked = True
 
+        print(recipe)
         return render(
             request,
             "recipe_detail.html",

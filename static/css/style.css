@@ -20,6 +20,22 @@ p {
     text-align: justify;
 }
 
+/* Miscellaneous controls */
+.btn-submit {
+    right: 1rem;
+    top: 4rem;
+    z-index: 999;
+}
+
+#sidebarCollapse {
+    top: 1rem;
+}
+
+.shifted {
+    left: 15.6rem;
+}
+
+
 /* Navbar */
 @media screen and (min-width: 992px){
     #navbarSupportedContent {
@@ -38,6 +54,7 @@ p {
     max-width: 250px;
     min-height: 100vh;
     overflow: auto;
+    top: -2.4rem;
 }
 
 #sidebar.active {
@@ -66,10 +83,14 @@ a[data-toggle="collapse"] {
 }
 
 /* Recipe cards */
-.card{
-    margin: 20px 2rem 20px 1rem;
+.card {
+    margin: 20px 2rem;
     padding: 10px;
 }
+
+.dropdown-toggle::after {
+    display: none;
+  }
 
 /* Paginator nav */
 #paginator-nav {

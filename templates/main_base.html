@@ -28,7 +28,8 @@
 </div>
 
 <div class="d-none {% if user.is_authenticated %} d-block d-md-none {% endif %}" id="sidebar_container">
-    <button type="button" id="sidebarCollapse" class="btn btn-info d-none {% if user.is_authenticated %} d-block d-md-none {% endif %} position-relative">
+    <button type="button" id="sidebarCollapse" class="btn btn-info d-none {% if user.is_authenticated %} d-block d-md-none 
+            {% endif %} position-relative ">
         <i class="fas fa-align-left"></i>
     </button>
     <div class="h-10 bg-warning col-3" id="sidebar">
