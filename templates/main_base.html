@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 
 {% block main %}
 <!-- Sidebar -->
@@ -26,9 +26,43 @@
         </li>
     </ul>
 </div>
+
+<div class="d-none {% if user.is_authenticated %} d-block d-md-none {% endif %}" id="sidebar_container">
+    <button type="button" id="sidebarCollapse" class="btn btn-info d-none {% if user.is_authenticated %} d-block d-md-none {% endif %} position-relative">
+        <i class="fas fa-align-left"></i>
+    </button>
+    <div class="h-10 bg-warning col-3" id="sidebar">
+        <nav>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'view_likes' %}">Liked</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'view_submitted' %}">My Submitted Recipes</a>
+                </li>
+                {% for category in categories %}
+                <li class="nav-item {% if category.title == title %} active {% endif %} js_target">
+                    <a class="nav-link" href="{% url 'view_category' category.id %}">{{ category.title }}</a>
+                </li>
+                {% endfor %}
+                <li class="nav-item">
+                    <form method="POST" action="{% url 'category_cud' location 'create' 0 0 %}" class="my-2 my-lg-0">
+                        {% csrf_token %}
+                        <input class="form-control mr-sm-2" type="Text" name='title' placeholder="Add new category" aria-label="Add new category">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add Category</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
 <div class="{% if user.is_authenticated %} col-md-8 offset-md-3 offset-lg-2 {% else %} col-lg-6 mx-auto {% endif %}" id="main">
     {% block content %}
     {% endblock %}
 </div>
+
+<script src="{% static 'js/category_name_validator.js' %}"></script>
+<script src="{% static 'js/sidebar_collapse.js' %}"></script>
 
 {% endblock %}
