@@ -53,7 +53,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% for category in categories %}
-                    <form method="POST" action="{% url 'category_cud' 'home' 'add' category.id recipe.id %}"
+                    <form method="POST" action="{% url 'category_cud' 'recipe_detail' 'add' category.id recipe.id %}"
                         class="dropdown-item my-2 my-lg-0 btn-category-container px-auto">
                         {% csrf_token %}
                         <button class="btn btn-secondary my-2 my-sm-0 mx-auto" type="submit">{{ category.title }}</button>

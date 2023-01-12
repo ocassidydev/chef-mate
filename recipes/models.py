@@ -17,8 +17,6 @@ class Recipe(models.Model):
     content = models.TextField()
     likes = models.ManyToManyField(User, related_name='recipe_likes',
                                    blank=True)
-    # possible issue - this causes the time submitted to be when the form
-    # is opened, not when it's submitted
     created_on = models.DateTimeField(default=timezone.now)
     updated_on = models.DateTimeField(auto_now=True)
     status = models.IntegerField(choices=STATUS, default='Unpublished')

@@ -170,6 +170,9 @@ class SubmitRecipe(View):
         )
 
     def post(self, request):
+        categories = RecipeCategory.objects.filter(
+                        user=self.request.user)
+
         recipe_form = SubmitRecipeForm(request.POST, request.FILES)
         if recipe_form.is_valid():
             recipe_form.instance.author = request.user
@@ -193,7 +196,9 @@ class SubmitRecipe(View):
             request,
             "submit_recipe.html",
             {
-                "submit_recipe_form": SubmitRecipeForm()
+                "submit_recipe_form": SubmitRecipeForm(),
+                "location": "submit_recipe",
+                "categories": categories
             }
         )
 

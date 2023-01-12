@@ -3,10 +3,12 @@
 {% block content %}
 
 <h1 class="text-center page-title">{{ title }}</h3>
-{% if location == 'home' or location == 'view_submitted' and user.is_authenticated %}
+{% if location == 'home' or location == 'view_submitted' %}
+    {% if user.is_authenticated %}
     <a href="{% url 'submit_recipe' %}"><button class="btn btn-success my-2 my-sm-0 position-fixed btn-submit">Submit New Recipe</button></a>
+    {% endif %}
 {% endif %}
-{% if filter_category and title != "Favourites" %}
+{% if filter_category %}
     <form method="POST" action="{% url 'category_cud' 'home' 'delete' category.id 0 %}" class="my-2 my-lg-0 
                 position-fixed btn-submit">
         {% csrf_token %}

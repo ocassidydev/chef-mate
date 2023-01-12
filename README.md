@@ -1,108 +1,278 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# ChefMate
 
-Welcome ocassidydev,
+[ChefMate](https://chefmate.herokuapp.com/) is a site for publishing and categorizing recipes, enabling the user to upload their recipes, like other people's recipes, and create recipe categories that they can put recipes in. The application allows all users to view recipes contained in a relational database which holds all of the recipes, which users have authored them,  which users have liked them, and what categories they belong to. The recipe categories also contain information on which user created them, so that each user can view, update, and delete only the categories that belong to them. On the site, the user has the option to like recipes, create new categories, add/remove recipes to/from categories, and also to submit recipes for admin approval. The site also features an admin panel for managing all content in the sites database. Notably, the admin can unpublish and publish recipes through a simple toggle, allowing content shown on the site to be rapidly published or pulled.
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+## Features 
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **September 1, 2021**
+- __Recipe details__
+    - When a recipe card is clicked, the user is redirected to a detailed page for that recipe, with the link generated from a unique slugfield in the recipe's model.
+    - This contains the controls and information that exists on the regular recipe card, only with more text content detailing how to make the recipe. 
+    - This will be useful to the user as it keeps the detailed information on a recipe on one particular recipe to a unique site location.
+    \
+    &nbsp;
 
-## Gitpod Reminders
+![Detailed Recipe](assets/readme_images/detailedrecipe.PNG)
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+- __Recipe feed__
 
-`python3 -m http.server`
+    - Whether the user is signed in or not, they will be able to view a paginated feed of all recipes that have the published status.
+    - These recipes, displayed on cards, contain an image, a title, some text, a button that allows a signed in user to like/unlike, and if the user is signed in, a button to add the recipe to categories.
+    - The cards also redirect to pages with more information on the recipes.
+    - This paginated feed is also used for other signed-in specific functionalities, such as displaying all recipes the user has liked or displaying all recipes of a specific category.
+    - This allows the user to easily parse through recipes.
+    \
+    &nbsp;
 
-A blue button should appear to click: _Make Public_,
+![Home](assets/readme_images/home.PNG)
 
-Another blue button should appear to click: _Open Browser_.
+&nbsp;
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+### Existing Features
+- __Creating/accessing user account__
 
-A blue button should appear to click: _Make Public_,
+    - On loading the page, in the upper right hand corner of the viewport, the user has controls to login/register.
+    - These redirect to respective login/signup pages.
+    - The backend uses the django.allauth features to store and retrieve relevant data from interaction with these forms.
+    - When the user wishes to log out, they may do so by clicking into the logout control, displayed in the same spot, which only shows if the user is authenticated.
+    - These features allow the user to manage their account. 
+    \
+    &nbsp;
 
-Another blue button should appear to click: _Open Browser_.
+![Account1](assets/readme_images/account1.PNG)
+![Account2](assets/readme_images/account2.PNG)
+![Account3](assets/readme_images/account3.PNG)
+![Account4](assets/readme_images/account4.PNG)
+![Account5](assets/readme_images/account5.PNG)
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+&nbsp;
 
-To log into the Heroku toolbelt CLI:
+- __Category sidebar__
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+    - When the user is signed in, a sidebar displays which anchors to two filters (Liked, and My Submitted Recipes) and anchors to as many categories as the user has.
+    - This allows the user to filter recipes by specific criteria, for easier access of recipes they may wish to save for specific purposes.
+    - On smaller device sizes, the sidebar is a collapsible. This ensures that the screen space is kept decluttered for easier viewing of the site content.
+    - This allows the user to easily access filters and category lists. 
+    \
+    &nbsp;
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+![Category](assets/readme_images/category.PNG)
+![Category2](assets/readme_images/category2.PNG)
+![Category3](assets/readme_images/category3.PNG)
 
-------
+&nbsp;
+- __Add/remove category__
 
-## Release History
+    - In the sidebar which only displays when the user is signed in, there is a form that allows the user to input a string, and then hit a button. 
+    - This creates a new category associated to the user with its name set as the string the user has input.
+    - The new category is subsequently added to the sidebar as the page is refreshed.
+    - When clicking into a page for a recipe category, there is a button that allows the user to delete the category, colored to reflect its delete functionality.
+    - When clicked, it removes the category from the database, and redirects the user back to home.
+    - This allows the user to easily manage the recipe categories they have on their account
+    \
+    &nbsp;
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+![Add Category](assets/readme_images/addcategory.PNG)
+![Add Category2](assets/readme_images/addcategory2.PNG)
+![Delete Category](assets/readme_images/deletecategory.PNG)
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+&nbsp;
+- __Like/unlike recipe__ 
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
+    - On the recipes cards displayed on each feed, and in recipe pages, there is a button with a universally understood symbol that the user can click. 
+    - This button will toggle whether the user is associated with the recipes's like field in the database.
+    - The number of likes that a recipe has is also displayed beside this button.
+    - This allows the user to easily set preferences, and have an unsorted list of uncategorized recipes to draw from.
+    - The user can also easily unlike a recipe, if they wish to no longer have it in their list of liked recipes.
+    \
+    &nbsp;
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+![Like](assets/readme_images/like.PNG)
+![Like2](assets/readme_images/like2.PNG)
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+&nbsp;
+- __Add/remove recipe to/from category__
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+    - On each recipe card and on each recipe page, there is a button of a folder icon.
+    - Clicking this opens a dropdown list of buttons of the user's categories.
+    - When a category button is clicked, the recipe is added to that category in the database and displays in the paginated feed when that category is selected from the sidebar.
+    - In the paginated display for the recipes added to a category, there is a a button that says remove, and is color-coded to represent its delete functionality.
+    - This removes the recipe from the category in the database and causes it to no longer display when filtering by the category.
+    - This allows the user to easily categorise recipes as they navigate the site and manage the categories they have.
+    \
+    &nbsp;
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
+![Add Recipe](assets/readme_images/addrecipe.PNG)
+![Remove Recipe](assets/readme_images/removerecipe.PNG)
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
+&nbsp;
+- __Submit new recipe__ 
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+    - On the home page, when the user is signed in, a button displays which redirects to a form page.
+    - This form allows the user to input data regarding a recipe (title, image, text)
+    - On submission, a recipe is a added to the database, which is set to unpublished. This allows the site admin to vet user-submitted content. 
+    - The user can also view both unpublished and published recipes authored by them by clicking on the "My Submitted Recipes" anchor in the sidebar.
+    - This will allow the user to add their own recipes, and also to rapidly source content from the site by generating it from users.
+    \
+    &nbsp;
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
+![Submit Recipe](assets/readme_images/submit.PNG)
+![Submit Recipe2](assets/readme_images/submit2.PNG)
+![Submit Recipe3](assets/readme_images/submit3.PNG)
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
+&nbsp;
+- __Admin panel__
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+    - The admin panel contains full CRUD functionality for each table in the project's database.
+    - It also has the a number of tools for searching and filtering data in each table. 
+    - An example of such an interface is shown below.
+    - This interface allows a site admin to easily manage the content on their website, without the requirement for an in-depth knowledge of the server-side architecture.
+    \
+    &nbsp;
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+![Submit Recipe](assets/readme_images/submit.PNG)
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+&nbsp;
+### Features Left to Implement
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
+&nbsp;
 
-------
+***Site Messages***
+Overall when interacting with the site there is a lack of site messages. Much of this is to do with how the various views are structured, ie. the views for displaying data are largely kept seperate from those posting data. As such, messages that would display on a post request are not seen by the user, as they are usually redirected away from the posted to URL immediately. This can make it hard to confirm that things have happened in the backend, such as a recipe being submitted. Some method of injecting context from posts to their redirected locations would be needed.
 
-## FAQ about the uptime script
+&nbsp;
 
-**Why have you added this script?**
+***Edit Recipe***
+A functionality that was considered as a user story was the ability for a user to edit the recipes they had submitted. A way of doing this would be to have the recipe detail page have context injected into it showing whether the recipe was authored by the user, and if so a button to edit the recipe would display. Then, a similar form to the one for submitting a recipe, prepopulated with the existing recipe data, would be displayed to the user. On submitting the recipe would be reverted to being unpublished, allowing the site admin to vet any changes.
 
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
+&nbsp;
 
-**How will this affect me?**
+***Back button***
+A functionality that became obviously needed in the interface was one that allowed the user to go back without resorting to the browsers back button, the site's side bar or the site's logo. Considering how this would be done however was not as straightforward at my current understanding of django. How to inject context from the view such that the user can go back to the previous URL did not seem a straightforward process, as already complicated control statements and embedding of data in URLs had been needed to allow the site's post views requests to redirect to the page the user had been on.
 
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
+&nbsp;
 
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
+***Scroll point/pagination maintained after action***
+One issue that still exists with the various views that post data for the user is that however far they are scrolled on a page or what page in a paginated list they are on is not maintained. This can be jarring in certain cases, such as liking past the 2nd page of the feed. Likely this would require the use of javascript and event listeners to parse where the user is at in a page before calling a post view.
 
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
 
-**So….?**
+&nbsp;
 
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
+***Recipe Tags/More information-rich recipes***
+Another feature considered was the ability to add custom tags to recipes (eg. lunch, dessert), which would display on cards and in recipe detail pages. As well, content within the recipes could be further subdivided (eg. content be broken up into ingredients and steps). However, this would have required a much more complicated database schema than was feasible to implement
 
-**Can I opt out?**
+&nbsp;
 
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
+***Better account management***
+Finally, it was considered that the user should be better able to manage their account (eg. recover their password). However this would have required more familiarity with the django.all_auth module than I currently have, along with some work, such as automated email systems, that might go beyond the scope of this project. 
 
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
+&nbsp;
 
-**Anything more?**
+## Testing 
+### Recipe Cards
+- The following table goes through every action on each part of the recipe cards, listing the expected behavior and what actually occurs. 
 
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
+|Action               |Expected Behavior                                 |What Occurs                            |Working as intended?   |
+|:------------------------|:-------------------------------------------------|:--------------------------------------|:---------------------:|
+|Click on recipe card |Opens detailed view of recipe|Opens detailed view of recipe|✔                     |
+|Like/unlike recipe |Toggles like/unlike |Toggles like/unlike|✔                     |
+|Like/unlike recipe |Toggles like/unlike |Toggles like/unlike|✔                     |
+|Add recipe to category |Adds recipe to category |Adds recipe to category |✔                     |
+\
+&nbsp;
+### Account functionality
+- The following table goes through each part of the account management functionalities, listing the expected behavior and what actually occurs. 
 
----
+|Action               |Expected Behavior                                 |What Occurs                            |Working as intended?   |
+|:------------------------|:-------------------------------------------------|:--------------------------------------|:---------------------:|
+|Sign in with valid credentials  |Redirect to home page with authenticated user controls displaying |Redirect to home page with authenticated user controls displaying|✔                     |
+|Sign in with invalid credentials |Form tells user to reenter details|Form tells user to reenter details|✔                     |
+|Signup|Redirect to home page with authenticated user controls displaying, new user shows in admin panel|Redirect to home page with authenticated user controls displaying, new user shows in admin panel|✔                     |
+|Logout|Redirect to home page without authenticated user controls displaying|Redirect to home page without authenticated user controls displaying|✔                     |
+\
+&nbsp;
+### Add Category
+- The following table goes through each possible action on the add category form in the sidebar, listing the expected behavior and what actually occurs. 
 
-Happy coding!
+|Action               |Expected Behavior                                 |What Occurs                            |Working as intended?   |
+|:------------------------|:-------------------------------------------------|:--------------------------------------|:---------------------:|
+|Enter empty text         |No change, no category added|No change, no category added|✔                     |
+|Enter text |A category is added with name set to the text inputted|A category is added with name set to the text inputted|✔                     |
+
+\
+&nbsp;
+
+#### Submit Recipe
+- The following table goes through each possible action involving the submit recipe interface, listing expected behavior and what actually occurs.
+
+|Action          |Expected Behavior     |What Occurs             |Working as intended?   |
+|:------------------|:---------------------|:-----------------------|:---------------------:|
+|Submit form without required fields|Form informs user to fill out required fields|Form informs user to fill out required fields|✔                     |
+|Submit form filled out|User redirected to empty form, form data appears as an unpublished recipe in the admin panel|User redirected to empty form, form data appears as an unpublished recipe in the admin panel|✔                     |
+
+\
+&nbsp;
+
+### Bugs 
+
+    - It is possible to add as many categories of the same name as you want. While this would not be useful to a normal user and they would probably only do this accidentally, it can make the UI look ugly if it happens as the same name is repeated
+    - The paginator in  django.view.generic.ListView seems to not reset itself between instances of the view. This made pagination appear where it does not exist, creating unintended problems in the UI (eg. the user seeing the message for an empty category if they clicked on the next page.). A workaround that manually sets the number of pages has been used, but the paginator will still exist where it's unneeded and cause the pagination controls to still display in lists that are shorter than the length of the list. 
+    - Not a lot of defensive programming was made to validate user inputted values. It could be possible to break the urls with certain permutations of values stored in the database.
+
+&nbsp;
+### Database Schema
+    - The following diagram representing the database schema was made with [dbdiagram](https://dbdiagram.io):
+
+    \
+    &nbsp;
+![Database](assets/readme_images/database.PNG)
+
+&nbsp;
+
+&nbsp;
+### Libraries 
+
+    - Django was used to created this project, as well as numerous add-ons to this frameworks, such as summernote, for making user-friendly forms in the admin panel, and cloudinary, for accessing the cloudinary server that hosts the static files and images for this project.
+
+&nbsp;
+### Unfixed Bugs
+
+    - Issue with unnecessary pagination
+    - Many permutations of the website's state untested and could break badly
+
+&nbsp;
+## Deployment
+
+- This project was deployed using [heroku](https://heroku.com), using the following steps:
+
+- In the workspace:
+    - before any commits were made, "env.py" was added to .gitignore
+    - SECRET_KEY was hidden in env.py
+    - run "pip3 freeze > requirements.txt"
+
+- On heroku:
+    - On the dashboard "New">"Create new app"
+    - Entered "chef-mate" for the app name, selected "Europe" as the region
+    - Clicked "Create app"
+    - In "Settings">"Reveal Config Vars" entered 4 creds
+    - CLOUDINARY_URL - *the URL for the cloudinary database*
+    - DATABASE_URL - *the URL for the ElephantSQL database*
+    - PORT - 8000 
+    - SECRET_KEY - *the secret key for the project*
+    - In "Deploy">"Deployment Method" selected Github
+    - Entered "chef-mate" into repo name field
+    - Ensured main was the branch selected to deploy, and then clicked "Enable Automatic Deploys" to sync with git pushes
+
+&nbsp;
+
+- For local deployment, run the following command:
+
+      git clone https://github.com/ocassidydev/chef-mate.git
+
+&nbsp;
+## Credits 
+
+### Code
+-  The [django documentation](https://docs.djangoproject.com/en/4.1/) was useful in providing an easy reference point for the many classes and methods needed to be customized in the views. 
+- The [bootstrap documentation](https://getbootstrap.com/docs/4.0/getting-started/introduction/) was useful in giving different useful elements to include in the site and instruction on how to use the in-built classes for responsivity.
+- The [bootstrapious](https://bootstrapious.com/p/bootstrap-sidebar) had a tutorial on how to create the collapsible sidebar I use on smaller mobile sizes
+&nbsp;
