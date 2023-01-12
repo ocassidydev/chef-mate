@@ -15,7 +15,9 @@ class RecipeList(generic.ListView):
     model = Recipe
     template_name = 'index.html'
     paginate_by = 5
-    location_dict = {'Recipe Feed': 'home', 'Liked Recipes': 'view_likes'}
+    location_dict = {'Recipe Feed': 'home',
+                     'Liked Recipes': 'view_likes',
+                     'My Submitted Recipes': 'view_submitted'}
 
     def filter_by_category(self):
         categories = RecipeCategory.objects.all()
@@ -25,6 +27,9 @@ class RecipeList(generic.ListView):
 
     def filter_by_likes(self):
         return "Liked Recipes", self.request.user.recipe_likes.all()
+
+    def filter_by_submit(self):
+        return "My Submitted Recipes", self.request.user.recipes.all()
 
     def get_zipped_likes(self, page_obj, recipe_list):
         likes = [query.likes.filter(id=self.request.user.id).exists()
@@ -38,6 +43,8 @@ class RecipeList(generic.ListView):
             self.title, self.queryset, category = self.filter_by_category()
         elif self.filter_like:
             self.title, self.queryset = self.filter_by_likes()
+        elif self.filter_submitted:
+            self.title, self.queryset = self.filter_by_submit()
 
         context = super(RecipeList, self).get_context_data(**kwargs)
 
@@ -63,11 +70,13 @@ class HomeFeed(RecipeList):
     title = "Recipe Feed"
     filter_category = False
     filter_like = False
+    filter_submitted = False
 
 
 class RecipeCategoryList(RecipeList):
     filter_category = True
     filter_like = False
+    filter_submitted = False
 
     def post(self, request, location, type, cat_id, recipe_id):
         if type == "create":
@@ -107,6 +116,13 @@ class RecipeCategoryList(RecipeList):
 class RecipeLikesList(RecipeList):
     filter_category = False
     filter_like = True
+    filter_submitted = False
+
+
+class MySubmittedRecipesList(RecipeList):
+    filter_category = False
+    filter_like = False
+    filter_submitted = True
 
 
 class RecipeDetail(View):

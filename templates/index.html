@@ -26,6 +26,9 @@
                                 <h1 class="recipe-title">
                                     {{ recipe.title }}
                                 </h1>
+                                {% if recipe.status == 0 %}
+                                    <span>unpublished</span>
+                                {% endif %}
                                 <p class="recipe-subtitle">
                                     {{ recipe.created_on }} 
                                 <p class="recipe-excerpt">

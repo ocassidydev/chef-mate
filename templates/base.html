@@ -63,10 +63,10 @@
                             <a class="nav-link" href="{% url 'view_likes' %}">Liked</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Your Submitted Recipes</a>
+                            <a class="nav-link" href="{% url 'view_submitted' %}">My Submitted Recipes</a>
                         </li>
                         {% for category in categories %}
-                        <li class="nav-item {% if category.title == title %} active {% endif %}">
+                        <li class="nav-item {% if category.title == title %} active {% endif %} js_target">
                             <a class="nav-link" href="{% url 'view_category' category.id %}">{{ category.title }}</a>
                         </li>
                         {% endfor %}
@@ -89,5 +89,7 @@
     <footer class="footer bg-success h-25">
         <div class="text-center">Filler content in the footer for now</div>
     </footer>
+
+    <script src="{% static 'js/category_name_validator.js' %}"></script>
 </body>
 </html>
