@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.utils import timezone
 from django.utils.text import slugify
+from cloudinary.uploader import upload
 from .models import Recipe, RecipeCategory
 from .forms import CategoryTitleForm, SubmitRecipeForm
 import math
@@ -139,12 +140,14 @@ class SubmitRecipe(View):
         )
 
     def post(self, request):
-        recipe_form = SubmitRecipeForm(data=request.POST)
+        recipe_form = SubmitRecipeForm(request.POST, request.FILES)
         if recipe_form.is_valid():
             recipe_form.instance.author = request.user
             recipe_form.instance.slug = slugify(recipe_form.instance.title)
-            # recipe_form.instance.created_on = str(timezone.now)
-            # recipe_form.instance.updated_on = str(timezone.now)
+
+            image = upload(request.FILES['featured_image'])['public_id']
+            recipe_form.instance.featured_image = image
+
             recipe_form.instance.status = 0
             recipe = recipe_form.save(commit=False)
             recipe.save()
