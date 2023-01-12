@@ -3,6 +3,9 @@
 {% block content %}
 
 <h3 class="text-center">{{ title }}</h3>
+{% if location == 'home' and user.is_authenticated %}
+    <a href="{% url 'submit_recipe' %}"><button class="btn btn-success my-2 my-sm-0">Submit New Recipe</button></a>
+{% endif %}
 {% if filter_category and title != "Favourites" %}
     <form method="POST" action="{% url 'category_cud' 'home' 'delete' category.id 0 %}" class="my-2 my-lg-0">
         {% csrf_token %}

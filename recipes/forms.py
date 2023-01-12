@@ -1,4 +1,4 @@
-from .models import RecipeCategory
+from .models import RecipeCategory, Recipe
 from django import forms
 
 
@@ -14,5 +14,4 @@ class SubmitRecipeForm(forms.ModelForm):
         fields = ('title',
                   'featured_image',
                   'excerpt',
-                  'content',
-                  'created_on')
+                  'content')

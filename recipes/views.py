@@ -108,7 +108,6 @@ class RecipeLikesList(RecipeList):
 
 
 class RecipeDetail(View):
-
     def get(self, request, slug, *args, **kwargs):
         queryset = Recipe.objects.filter(status=1)
         recipe = get_object_or_404(queryset, slug=slug)
@@ -128,6 +127,14 @@ class RecipeDetail(View):
         )
 
 
+class SubmitRecipe(View):
+    def get(self, request):
+        return render(
+            request,
+            "submit_recipe.html"
+        )
+
+
 class RecipeLike(View):
     def post(self, request, location, slug):
         queryset = Recipe.objects.filter(status=1)
@@ -143,6 +150,7 @@ class RecipeLike(View):
             return HttpResponseRedirect(reverse(location))
         elif "view_category" in location:
             cat_id = location.split('-')[1]
-            return HttpResponseRedirect(reverse('view_category', args=[cat_id]))
+            return HttpResponseRedirect(reverse('view_category',
+                                        args=[cat_id]))
         elif location == "recipe_detail":
             return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
