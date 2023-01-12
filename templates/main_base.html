@@ -3,7 +3,8 @@
 
 {% block main %}
 <!-- Sidebar -->
-<div class="d-none {% if user.is_authenticated %} d-md-block {% endif %} col-md-3 col-lg-2 bg-warning position-fixed h-100" id="sticky-sidebar">
+<div class="d-none {% if user.is_authenticated %} d-md-block {% endif %} col-md-3 col-lg-2 
+            position-fixed h-100 sidebar-nav" id="sticky-sidebar">
     <h3>Recipe Lists</h3>
     <ul class="nav flex-column">
         <li class="nav-item">
@@ -20,8 +21,8 @@
         <li class="nav-item">
             <form method="POST" action="{% url 'category_cud' location 'create' 0 0 %}" class="my-2 my-lg-0">
                 {% csrf_token %}
-                <input class="form-control mr-sm-2" type="Text" name='title' placeholder="Add new category" aria-label="Add new category">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add Category</button>
+                <input class="form-control mr-sm-2 my-2" type="Text" name='title' placeholder="Add new category" aria-label="Add new category">
+                <button class="btn btn-dark my-2 my-sm-0" type="submit">Add Category</button>
             </form>
         </li>
     </ul>
@@ -32,8 +33,9 @@
             {% endif %} position-relative ">
         <i class="fas fa-align-left"></i>
     </button>
-    <div class="h-10 bg-warning col-3" id="sidebar">
+    <div class="h-10 col-3 sidebar-nav" id="sidebar">
         <nav>
+            <h3>Recipe Lists</h3>
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'view_likes' %}">Liked</a>
@@ -49,8 +51,8 @@
                 <li class="nav-item">
                     <form method="POST" action="{% url 'category_cud' location 'create' 0 0 %}" class="my-2 my-lg-0">
                         {% csrf_token %}
-                        <input class="form-control mr-sm-2" type="Text" name='title' placeholder="Add new category" aria-label="Add new category">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add Category</button>
+                        <input class="form-control mr-sm-2 my-2" type="Text" name='title' placeholder="Add new category" aria-label="Add new category">
+                        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Add Category</button>
                     </form>
                 </li>
             </ul>

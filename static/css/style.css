@@ -1,8 +1,10 @@
-main {
-    margin-top: 56px;
+/* General */
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
-a {
+a:hover {
     text-decoration: none;
     color: inherit;
 }
@@ -36,14 +38,32 @@ p {
 }
 
 
-/* Navbar */
+/* Header and navbar */
 @media screen and (min-width: 992px){
     #navbarSupportedContent {
         display: inline !important;
     }
 }
 
+header {
+    background-color: #8BC34A;
+    padding: 1rem;
+    text-align: center;
+    height: 56px;
+}
+
+.navbar {
+    color: white;
+}
+
 /* Sidebar */
+.sidebar-nav {
+    background-color: #6a676794;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow: auto;
+}
+
 #sidebar_container {
     position: fixed;
     z-index: 999;
@@ -52,9 +72,8 @@ p {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    min-height: 100vh;
-    overflow: auto;
     top: -2.4rem;
+    background-color: #f9f9f9;
 }
 
 #sidebar.active {
@@ -82,10 +101,53 @@ a[data-toggle="collapse"] {
     transform: translateY(-50%);
 }
 
+/* Main */
+main {
+    margin-top: 56px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Recipe cards */
 .card {
     margin: 20px 2rem;
     padding: 10px;
+    border-radius: 0.25rem;
+    box-shadow: 0px 0px 15px 0px #ccc;
+    background-color: #F5F5DC;
+    border-radius: 0.25rem;
+    box-shadow: 0px 0px 15px 0px #ccc;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-img {
+    max-width: 100%;
+    border-radius: 0.25rem;
+}
+
+.card-text {
+    margin-top: 1rem;
+    font-size: 1.25rem;
+}
+
+.card-btn {
+    background-color: #8BC34A;
+    color: white;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.like-number {
+    font-size: 150%;
+    font-weight: bold;
 }
 
 .dropdown-toggle::after {
@@ -98,7 +160,10 @@ a[data-toggle="collapse"] {
 }
 
 /* footer */
-.footer {
+footer {
+    background-color: #8BC34A;
+    color: white;
+    padding: 1rem;
+    text-align: center;
     position: relative;
 }
-

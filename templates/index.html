@@ -3,7 +3,7 @@
 {% block content %}
 
 <h3 class="text-center">{{ title }}</h3>
-{% if location == 'home' and user.is_authenticated %}
+{% if location == 'home' or location == 'view_submitted' and user.is_authenticated %}
     <a href="{% url 'submit_recipe' %}"><button class="btn btn-success my-2 my-sm-0 position-fixed btn-submit">Submit New Recipe</button></a>
 {% endif %}
 {% if filter_category and title != "Favourites" %}
@@ -45,19 +45,19 @@
                         {% if user.is_authenticated %}
                         <form action="{% url 'recipe_like' location recipe.slug %}" method="POST" class="d-inline">
                             {% csrf_token %}
-                            <button class="btn-light" type="submit" name="recipe_id" value="{{ recipe.slug }}">
+                            <button class="card-btn" type="submit" name="recipe_id" value="{{ recipe.slug }}">
                                 <i class="{% if like %} fas {% else %} far {% endif %} fa-heart"></i>
                             </button>
                         </form>
                         {% else %}
                         <span class="text-secondary"><i class="far fa-heart"></i></span>
                         {% endif %}
-                        <span>{{ recipe.number_of_likes }}</span>
+                        <span class="like-number mx-2">{{ recipe.number_of_likes }}</span>
                     </span>
                     
                     {% if user.is_authenticated and categories|length > 0 %}
                     <span class="mx-1">
-                        <button class="dropdown-toggle d-inline btn-light mx-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        <button class="dropdown-toggle d-inline card-btn mx-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             <i class="fa-solid fa-folder-plus"></i>
                         </button>
@@ -86,7 +86,7 @@
         </div>
     </div>
 {% empty %}
-    {% if title == 'Recipe Feed'%}
+    {% if location == 'home' %}
     <p>No recipes yet! Add some and The Gourmand might publish them, if they prove quality enough!</p>
     {% elif title == 'Liked' %}
     <p>You haven't liked any recipes yet! Click on the like button in the feed to do so.</p>
