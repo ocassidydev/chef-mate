@@ -109,8 +109,11 @@ class RecipeCategoryList(RecipeList):
         elif location == "recipe_detail":
             slug = recipe.slug
             return HttpResponseRedirect(reverse(location, args=[slug]))
-        elif location == "view_category":
+        elif "view_category" in location:
+            location, cat_id = location.split('-')
             return HttpResponseRedirect(reverse(location, args=[cat_id]))
+        else:
+            print(location)
 
 
 class RecipeLikesList(RecipeList):
@@ -191,7 +194,6 @@ class RecipeLike(View):
 
         if recipe.likes.filter(id=request.user.id).exists():
             recipe.likes.remove(request.user)
-            request.user.recipe_likes.remove(recipe)
         else:
             recipe.likes.add(request.user)
 

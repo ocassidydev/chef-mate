@@ -71,7 +71,7 @@
                         </li>
                         {% endfor %}
                         <li class="nav-item">
-                            <form method="POST" action="{% url 'category_cud' 'home' 'create' 0 0 %}" class="my-2 my-lg-0">
+                            <form method="POST" action="{% url 'category_cud' location 'create' 0 0 %}" class="my-2 my-lg-0">
                                 {% csrf_token %}
                                 <input class="form-control mr-sm-2" type="Text" name='title' placeholder="Add new category" aria-label="Add new category">
                                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add Category</button>
