@@ -110,7 +110,9 @@ class RecipeCategoryList(RecipeList):
             slug = recipe.slug
             return HttpResponseRedirect(reverse(location, args=[slug]))
         elif "view_category" in location:
-            location, cat_id = location.split('-')
+            if len(location.split('-')) == 2:
+                location, cat_id = location.split('-')
+
             return HttpResponseRedirect(reverse(location, args=[cat_id]))
         else:
             print(location)
