@@ -143,6 +143,7 @@ class RecipeDetail(View):
             request,
             "recipe_detail.html",
             {
+                "location": "recipe_detail",
                 "recipe": recipe,
                 "liked": liked,
                 "categories": categories
