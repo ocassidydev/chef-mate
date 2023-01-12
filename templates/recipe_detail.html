@@ -13,8 +13,12 @@
                         {{ recipe.title }}
                     </h1>
                     <p class="recipe-subtitle">
-                        Posted by {{ recipe.author }} 
+                        Posted by {% if recipe.author == 'admin' %} The Gourmand {% else %} {{ recipe.author }} {% endif %} 
                         <br>
+                        {% if recipe.status == 0 %}
+                        unpublished
+                        <br>
+                        {% endif %}
                         {{ recipe.created_on }} 
                         {% if recipe.created_on != recipe.updated_on %} last edited {{ recipe.updated_on }} {% endif %}
                     </p>

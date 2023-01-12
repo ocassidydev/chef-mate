@@ -7,7 +7,8 @@
     <a href="{% url 'submit_recipe' %}"><button class="btn btn-success my-2 my-sm-0 position-fixed btn-submit">Submit New Recipe</button></a>
 {% endif %}
 {% if filter_category and title != "Favourites" %}
-    <form method="POST" action="{% url 'category_cud' 'home' 'delete' category.id 0 %}" class="my-2 my-lg-0">
+    <form method="POST" action="{% url 'category_cud' 'home' 'delete' category.id 0 %}" class="my-2 my-lg-0 
+                position-fixed btn-submit">
         {% csrf_token %}
         <button class="btn btn-danger my-2 my-sm-0" type="submit">Delete Category</button>
     </form>
@@ -26,10 +27,11 @@
                                 <h2 class="recipe-title">
                                     {{ recipe.title }}
                                 </h1>
-                                {% if recipe.status == 0 %}
-                                    <span>unpublished</span>
-                                {% endif %}
                                 <p class="recipe-subtitle">
+                                    {% if recipe.status == 0 %}
+                                    unpublished
+                                    <br>
+                                    {% endif %}
                                     {{ recipe.created_on }} 
                                 <p class="recipe-excerpt">
                                     {{ recipe.excerpt }}
@@ -41,7 +43,7 @@
             </a>
             <div class="row mt-4">
                 <div class="col">
-                    <span class="mx-1">
+                    <span class="mr-xs-1 mx-sm-1">
                         {% if user.is_authenticated %}
                         <form action="{% url 'recipe_like' location recipe.slug %}" method="POST" class="d-inline">
                             {% csrf_token %}
@@ -52,12 +54,12 @@
                         {% else %}
                         <span class="text-secondary"><i class="far fa-heart"></i></span>
                         {% endif %}
-                        <span class="like-number mx-2">{{ recipe.number_of_likes }}</span>
+                        <span class="like-number mr-1 mx-sm-1">{{ recipe.number_of_likes }}</span>
                     </span>
                     
                     {% if user.is_authenticated and categories|length > 0 %}
-                    <span class="mx-1">
-                        <button class="dropdown-toggle d-inline card-btn mx-2" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    <span class="mr-xs-1 mx-sm-1">
+                        <button class="dropdown-toggle d-inline card-btn" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             <i class="fa-solid fa-folder-plus"></i>
                         </button>
@@ -72,16 +74,17 @@
                         </div>
                     </span>
                     {% endif %}
+
+                    {% if filter_category %}
+                    <span class="mr-xs-1 mx-sm-1">
+                        <form method="POST" action="{% url 'category_cud' 'view_category' 'remove' category.id recipe.id %}"
+                                class="my-2 my-lg-0 d-inline">
+                                {% csrf_token %}
+                            <button class="del-btn card-btn my-2 my-sm-0" type="submit">Remove</button>
+                        </form>
+                    </span>
+                    {% endif %}
                 </div>
-                {% if filter_category %}
-                <div class="col-1">
-                    <form method="POST" action="{% url 'category_cud' 'view_category' 'remove' category.id recipe.id %}"
-                            class="dropdown-item my-2 my-lg-0">
-                            {% csrf_token %}
-                        <button class="btn btn-danger my-2 my-sm-0" type="submit">Remove</button>
-                    </form>
-                </div>
-                {% endif %}
             </div>
         </div>
     </div>

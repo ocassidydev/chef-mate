@@ -157,11 +157,15 @@ class RecipeDetail(View):
 
 class SubmitRecipe(View):
     def get(self, request):
+        categories = RecipeCategory.objects.filter(
+                        user=self.request.user)
         return render(
             request,
             "submit_recipe.html",
             {
-                "submit_recipe_form": SubmitRecipeForm()
+                "submit_recipe_form": SubmitRecipeForm(),
+                "location": "submit_recipe",
+                "categories": categories
             }
         )
 

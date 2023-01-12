@@ -9,7 +9,7 @@
 <form method=POST action="{% url 'submit_recipe' %}" class="ml-md-5" enctype="multipart/form-data">
     {{ submit_recipe_form | crispy }}
     {% csrf_token %}
-    <button type="submit" class="btn btn-success">Submit Recipe</button>
+    <button type="submit" class="btn btn-success" id="recipe-submit">Submit Recipe</button>
 </form>
 
 {% endblock %}
