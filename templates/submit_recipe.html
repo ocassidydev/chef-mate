@@ -2,25 +2,14 @@
 
 {% block content %}
 
+{% load crispy_forms_tags %}
+
 <h3 class="text-center">Submit a New Recipe</h3>
 
-<form method=POST action="" class="ml-md-5">
-    <div class="form-group">
-        <label for="recipe_title">Title</label>
-        <input type="text" class="form-control" id="recipe_title" name="recipe-title" placeholder="Enter recipe title">
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlFile1">Upload Recipe Image</label>
-        <input type="file" class="form-control-file" id="exampleFormControlFile1">
-    </div>
-    <div class="form-group">
-        <label for="recipe_excerpt">Excerpt</label>
-        <textarea class="form-control" id="recipe_excerpt" name="recipe_excerpt" rows="3" placeholder="Enter an excerpt describing the recipe."></textarea>
-    </div>
-    <div class="form-group">
-        <label for="recipe_content">Content</label>
-        <textarea class="form-control" id="recipe_content" name="recipe_content" rows="10" placeholder="Enter instructions on how to make this recipe."></textarea>
-    </div>
+<form method=POST action="{% url 'submit_recipe' %}" class="ml-md-5">
+    {{ submit_recipe_form | crispy }}
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Submit Recipe</button>
 </form>
 
 {% endblock %}

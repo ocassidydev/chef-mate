@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic, View
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from django.core.paginator import Paginator
+from django.utils import timezone
+from django.utils.text import slugify
 from .models import Recipe, RecipeCategory
-from .forms import CategoryTitleForm
+from .forms import CategoryTitleForm, SubmitRecipeForm
 import math
 
 
@@ -131,7 +132,36 @@ class SubmitRecipe(View):
     def get(self, request):
         return render(
             request,
-            "submit_recipe.html"
+            "submit_recipe.html",
+            {
+                "submit_recipe_form": SubmitRecipeForm()
+            }
+        )
+
+    def post(self, request):
+        recipe_form = SubmitRecipeForm(data=request.POST)
+        if recipe_form.is_valid():
+            recipe_form.instance.author = request.user
+            recipe_form.instance.slug = slugify(recipe_form.instance.title)
+            # recipe_form.instance.created_on = str(timezone.now)
+            # recipe_form.instance.updated_on = str(timezone.now)
+            recipe_form.instance.status = 0
+            recipe = recipe_form.save(commit=False)
+            recipe.save()
+        else:
+            print("invalid")
+            recipe_form = SubmitRecipeForm()
+
+        messages.add_message(request, messages.SUCCESS,
+                             ''.join(['You successfully submitted a recipe, ',
+                                      'which is now awaiting admin approval']))
+
+        return render(
+            request,
+            "submit_recipe.html",
+            {
+                "submit_recipe_form": SubmitRecipeForm()
+            }
         )
 
 
