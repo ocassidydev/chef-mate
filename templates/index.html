@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h3 class="text-center">{{ title }}</h3>
+<h1 class="text-center page-title">{{ title }}</h3>
 {% if location == 'home' or location == 'view_submitted' and user.is_authenticated %}
     <a href="{% url 'submit_recipe' %}"><button class="btn btn-success my-2 my-sm-0 position-fixed btn-submit">Submit New Recipe</button></a>
 {% endif %}
@@ -21,9 +21,9 @@
                 <div class="row">
                     <div class="col">
                         <div class="clearfix">
-                            <img src="{{ recipe.featured_image.url }}" class="col-3 w-100 rounded float-left">
+                            <img src="{{ recipe.featured_image.url }}" class="col-xs-8 col-sm-6 col-md-5 col-lg-4 col-xl-3 mx-xs-auto w-100 rounded float-left">
                             <div class="d-inline">
-                                <h1 class="recipe-title">
+                                <h2 class="recipe-title">
                                     {{ recipe.title }}
                                 </h1>
                                 {% if recipe.status == 0 %}
@@ -91,9 +91,9 @@
     {% elif title == 'Liked' %}
     <p>You haven't liked any recipes yet! Click on the like button in the feed to do so.</p>
     {% elif title == 'My Submitted Recipes' %}
-    <p>You haven't submitted recipes yet! Add some with the button above</p>
+    <p>You haven't submitted recipes yet! Add some with the button above.</p>
     {% else %}
-    <p>You haven't added any recipes to this category. Navigate the feed to add some!</p>
+    <p>You haven't added any recipes to this category. Navigate to the feed to add some!</p>
     {% endif %}
 {% endfor %}
 {% if is_paginated %}

@@ -52,6 +52,10 @@ header {
     height: 56px;
 }
 
+.header-nav-collapse {
+    background-color: #8BC34A;
+}
+
 .navbar {
     color: white;
 }
@@ -166,4 +170,17 @@ footer {
     padding: 1rem;
     text-align: center;
     position: relative;
+}
+
+/* Media queries */
+@media (max-width: 600px) {
+    .page-title {
+        margin-top: 4rem;
+    }
+}
+
+@media (max-width: 370px ) {
+    .card {
+        margin: 20px 0.5rem;
+    }
 }
