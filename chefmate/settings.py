@@ -31,7 +31,7 @@ DEBUG = 'DEV' in os.environ
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
-ALLOWED_HOSTS = ['chef-mate2023.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['chef-mate2023-79fb9bc80075.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
